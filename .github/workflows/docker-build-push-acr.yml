@@ -20,5 +20,6 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - run: |
-          docker build -f app/Dockerfile . -t kingkong2.azurecr.io/js-app:${{ github.sha }}
+          cd app
+          docker build -t kingkong2.azurecr.io/js-app:${{ github.sha }} .
           docker push kingkong2.azurecr.io/js-app:${{ github.sha }}
