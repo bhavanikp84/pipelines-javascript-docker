@@ -29,5 +29,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          file: app/Dockerfile
           push: true
           tags: bhavanikp/js-app:latest
