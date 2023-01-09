@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - uses: azure/docker-login@v1
+        with:
+          login-server: kingkong2.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - run: |
+          docker build -f app/Dockerfile . -t kingkong2.azurecr.io/js-app:${{ github.sha }}
+          docker push kingkong2.azurecr.io/js-app:${{ github.sha }}
